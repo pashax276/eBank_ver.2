@@ -4,6 +4,6 @@
     <title></title>
 </head>
 <body>
-<h1>Initial project test</h1>
+    <h1>Initial project test</h1>
 </body>
 </html>
