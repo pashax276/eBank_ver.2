@@ -1,18 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:tx="http://www.springframework.org/schema/tx"
-       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns="http://www.springframework.org/schema/beans"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-                        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
-                        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd">
+                        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
 
     <!--<context:property-placeholder location="classpath:datasource.properties" />-->
 
     <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-        <property name="url" value="URL" />
-        <property name="username" value="user" />
-        <property name="password" value="password" />
+        <property name="url" value="URL"/>
+        <property name="username" value="user"/>
+        <property name="password" value="password"/>
     </bean>
 
     <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
@@ -28,13 +26,13 @@
     </bean>
 
     <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
-        <property name="dataSource" ref="dataSource" />
-        <property name="entityManagerFactory" ref="entityManagerFactory" />
+        <property name="dataSource" ref="dataSource"/>
+        <property name="entityManagerFactory" ref="entityManagerFactory"/>
     </bean>
 
-    <tx:annotation-driven transaction-manager="transactionManager" />
+    <tx:annotation-driven transaction-manager="transactionManager"/>
 
-    <bean class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor" />
+    <bean class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor"/>
 </beans>
 
 
