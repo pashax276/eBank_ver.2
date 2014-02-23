@@ -10,8 +10,6 @@
     <packaging>war</packaging>
     <name>eBank</name>
 
-
-
     <dependencies>
         <dependency>
             <groupId>org.hibernate</groupId>
