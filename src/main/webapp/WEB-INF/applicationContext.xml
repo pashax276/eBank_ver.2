@@ -5,4 +5,10 @@
 
     <import resource="datasource-config.xml"/>
     <import resource="webflow-config.xml"/>
+
+    <bean id="userDao" class="dao.UserJpaDao"/>
+
+    <bean id="userService" class="services.impl.UserServiceImpl">
+        <property name="userDao" ref="userDao"/>
+    </bean>
 </beans>
