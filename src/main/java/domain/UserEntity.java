@@ -1,15 +1,19 @@
 package domain;
 
+import commons.domain.BaseEntity;
 import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.security.authentication.encoding.PasswordEncoder;
 
-import java.io.Serializable;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
 /**
  * Created by Павел on 09.03.14.
  */
-public class UserEntity implements Serializable{
 
+@Entity
+@Table(name = "appuser")
+public class UserEntity extends BaseEntity {
 
     private String firstName;
     private String lastName;

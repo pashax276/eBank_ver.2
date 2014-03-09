@@ -5,8 +5,6 @@
                 http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd" version="1.0">
 
     <persistence-unit name="default" transaction-type="RESOURCE_LOCAL">
-
-
-
+        <class>domain.UserEntity</class>
     </persistence-unit>
 </persistence>

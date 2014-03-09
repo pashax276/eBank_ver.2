@@ -12,5 +12,8 @@
 
     <view-state id="singUp" view="singUp.xhtml" model="user">
         <transition on="backToSignIn" to="welcome"/>
+        <transition on="confirmSingUp" to="authenticate">
+            <evaluate expression="userService.createUser(user)"/>
+        </transition>
     </view-state>
 </flow>
