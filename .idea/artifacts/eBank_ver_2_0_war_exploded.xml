@@ -48,7 +48,8 @@
           <element id="library" level="project" name="Maven: com.sun.faces:jsf-impl:2.2.5" />
           <element id="library" level="project" name="Maven: com.sun.facelets:jsf-facelets:1.1.14" />
           <element id="library" level="project" name="Maven: com.sun.faces:jsf-api:2.2.5" />
-          <element id="library" level="project" name="Maven: commons-dbcp:commons-dbcp:20030825.184428" />
+          <element id="library" level="project" name="Maven: commons-dbcp:commons-dbcp:1.4" />
+          <element id="library" level="project" name="Maven: commons-pool:commons-pool:1.5.4" />
           <element id="library" level="project" name="Maven: org.slf4j:slf4j-log4j12:1.7.6" />
           <element id="library" level="project" name="Maven: org.slf4j:slf4j-api:1.7.6" />
           <element id="library" level="project" name="Maven: org.primefaces:primefaces:4.0" />
