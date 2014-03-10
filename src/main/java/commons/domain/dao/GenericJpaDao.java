@@ -37,7 +37,7 @@ public abstract class GenericJpaDao<T, ID extends Serializable> implements Gener
 
     @Transactional(readOnly=true)
     public T findById(ID id) {
-        T entity = (T) getEntityManager().find(getPersistentClass(), id);
+        T entity = getEntityManager().find(getPersistentClass(), id);
         return entity;
     }
 

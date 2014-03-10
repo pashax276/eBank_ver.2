@@ -5,6 +5,7 @@
 
     <import resource="datasource-config.xml"/>
     <import resource="webflow-config.xml"/>
+    <import resource="security-config.xml"/>
 
     <bean id="userDao" class="dao.UserJpaDao"/>
 
