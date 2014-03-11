@@ -2,21 +2,53 @@ package services.impl;
 
 import dao.UserDao;
 import domain.UserEntity;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import services.UserService;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 /**
- * Created by Павел on 09.03.14.
+ * Service providing service methods to work with user data and entity.
+ *
  */
 public class UserServiceImpl implements UserService, UserDetailsService {
 
     private UserDao userDao;
 
+    /**
+     * Create user - persist to database
+     *
+     * @param userEntity
+     * @return true if success
+     */
     public boolean createUser(UserEntity userEntity) {
         userDao.save(userEntity);
         return true;
+    }
+
+    /**
+     * Construct UserDetails instance required by spring security
+     */
+    public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
+
+        UserEntity user = userDao.loadUserByUserName(userName);
+
+        if (user == null) {
+            throw new UsernameNotFoundException(String.format("No such user with name provided '%s'", userName));
+        }
+
+        Collection<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
+        authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
+
+        User userDetails = new User(user.getUserName(), user.getPassword(), authorities);
+
+        return userDetails;
     }
 
     public UserDao getUserDao() {
@@ -25,9 +57,5 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     public void setUserDao(UserDao userDao) {
         this.userDao = userDao;
-    }
-
-    public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
-        return null;
     }
 }

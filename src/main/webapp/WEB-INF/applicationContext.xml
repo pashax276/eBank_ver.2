@@ -3,13 +3,20 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <import resource="datasource-config.xml"/>
-    <import resource="webflow-config.xml"/>
-    <import resource="security-config.xml"/>
+    <import resource="datasource-config.xml" />
+    <import resource="webflow-config.xml" />
+    <import resource="security-config.xml" />
 
-    <bean id="userDao" class="dao.UserJpaDao"/>
+    <!-- DAO declarations -->
+    <bean id="userDao" class="dao.UserJpaDao" />
 
+    <!-- Services declarations -->
     <bean id="userService" class="services.impl.UserServiceImpl">
-        <property name="userDao" ref="userDao"/>
+        <property name="userDao" ref="userDao" />
     </bean>
+
+    <bean id="userAuthenticationProviderService" class="services.impl.UserAuthenticationProviderServiceImpl">
+        <property name="authenticationManager" ref="authenticationManager" />
+    </bean>
+
 </beans>
