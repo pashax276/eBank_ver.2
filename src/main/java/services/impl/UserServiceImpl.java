@@ -58,4 +58,5 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     public void setUserDao(UserDao userDao) {
         this.userDao = userDao;
     }
+
 }

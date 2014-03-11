@@ -1,22 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+<beans
+        xmlns="http://www.springframework.org/schema/beans"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
     <import resource="datasource-config.xml" />
     <import resource="webflow-config.xml" />
     <import resource="security-config.xml" />
 
-    <!-- DAO declarations -->
-    <bean id="userDao" class="dao.UserJpaDao" />
+    <bean
+            id="userDao"
+            class="dao.UserJpaDao" />
 
-    <!-- Services declarations -->
-    <bean id="userService" class="services.impl.UserServiceImpl">
-        <property name="userDao" ref="userDao" />
+    <bean
+            id="userService"
+            class="services.impl.UserServiceImpl">
+
+        <property
+                name="userDao"
+                ref="userDao" />
     </bean>
-
-    <bean id="userAuthenticationProviderService" class="services.impl.UserAuthenticationProviderServiceImpl">
-        <property name="authenticationManager" ref="authenticationManager" />
+    <bean
+            id="userAuthenticationProviderService"
+            class="services.impl.UserAuthenticationProviderServiceImpl">
+        <property
+                name="authenticationManager"
+                ref="authenticationManager">
+        </property>
     </bean>
-
 </beans>
