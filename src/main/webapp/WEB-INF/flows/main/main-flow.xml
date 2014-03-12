@@ -6,8 +6,11 @@
 
     <var name="user" class="domain.UserEntity"/>
 
-    <view-state id="welcome" view="welcome.xhtml">
+    <view-state id="welcome" view="welcome.xhtml" model="user">
         <transition on="newUser" to="singUp"/>
+        <transition on="confirmSignIn" to="finish">
+            <evaluate expression="userAuthenticationProviderService.processUserAuthentication(user)"/>
+        </transition>
     </view-state>
 
     <view-state id="singUp" view="singUp.xhtml" model="user">

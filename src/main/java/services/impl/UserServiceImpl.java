@@ -10,12 +10,13 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import services.UserService;
 
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import java.util.ArrayList;
 import java.util.Collection;
 
 /**
  * Service providing service methods to work with user data and entity.
- *
  */
 public class UserServiceImpl implements UserService, UserDetailsService {
 
@@ -28,7 +29,20 @@ public class UserServiceImpl implements UserService, UserDetailsService {
      * @return true if success
      */
     public boolean createUser(UserEntity userEntity) {
-        userDao.save(userEntity);
+
+        if (!userDao.checkAvaliable(userEntity.getUserName())) {
+            FacesMessage message = constructErrorMessage(String.format("User Name '%s' is not available", userEntity.getUserName()), null);
+            getFacesContext().addMessage(null, message);
+            return false;
+        }
+        try {
+            userDao.save(userEntity);
+        } catch (Exception e) {
+            FacesMessage message = constractFatalMessage(e.getMessage(), null);
+            getFacesContext().addMessage(null, message);
+            return false;
+        }
+
         return true;
     }
 
@@ -49,6 +63,23 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         User userDetails = new User(user.getUserName(), user.getPassword(), authorities);
 
         return userDetails;
+    }
+
+
+    protected FacesMessage constructErrorMessage(String message, String detail) {
+        return new FacesMessage(FacesMessage.SEVERITY_ERROR, message, detail);
+    }
+
+    protected FacesMessage constractInfoMessage(String message, String detail) {
+        return new FacesMessage(FacesMessage.SEVERITY_INFO, message, detail);
+    }
+
+    protected FacesMessage constractFatalMessage(String message, String detail) {
+        return new FacesMessage(FacesMessage.SEVERITY_FATAL, message, detail);
+    }
+
+    protected FacesContext getFacesContext() {
+        return FacesContext.getCurrentInstance();
     }
 
     public UserDao getUserDao() {
