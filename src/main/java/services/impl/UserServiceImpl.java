@@ -2,6 +2,7 @@ package services.impl;
 
 import dao.UserDao;
 import domain.UserEntity;
+import org.primefaces.component.inputtext.InputText;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -12,8 +13,10 @@ import services.UserService;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.faces.event.AjaxBehaviorEvent;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.ResourceBundle;
 
 /**
  * Service providing service methods to work with user data and entity.
@@ -31,7 +34,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     public boolean createUser(UserEntity userEntity) {
 
         if (!userDao.checkAvaliable(userEntity.getUserName())) {
-            FacesMessage message = constructErrorMessage(String.format("User Name '%s' is not available", userEntity.getUserName()), null);
+            FacesMessage message = constructErrorMessage(String.format(getMessageBundle().getString("userExistsMsg"), userEntity.getUserName()), null);
             getFacesContext().addMessage(null, message);
             return false;
         }
@@ -46,6 +49,26 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         return true;
     }
 
+    public boolean checkAvailable(AjaxBehaviorEvent event) {
+        InputText inputText = (InputText) event.getSource();
+        String value = (String) inputText.getValue();
+
+        boolean available = userDao.checkAvaliable(value);
+
+        if (!available) {
+            FacesMessage message = constructErrorMessage(null, String.format(getMessageBundle().getString("userExistsMsg"), value));
+            getFacesContext().addMessage(event.getComponent().getClientId(), message);
+        } else {
+            FacesMessage message = constractInfoMessage(null, String.format(getMessageBundle().getString("userAvailableMsg"), value));
+            getFacesContext().addMessage(event.getComponent().getClientId(), message);
+        }
+        return available;
+    }
+
+    public UserEntity loadUserEntityByUsername(String userName) {
+        return userDao.loadUserByUserName(userName);
+    }
+
     /**
      * Construct UserDetails instance required by spring security
      */
@@ -54,7 +77,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         UserEntity user = userDao.loadUserByUserName(userName);
 
         if (user == null) {
-            throw new UsernameNotFoundException(String.format("No such user with name provided '%s'", userName));
+            throw new UsernameNotFoundException(String.format("badCredentials"), userName);
         }
 
         Collection<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
@@ -80,6 +103,10 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     protected FacesContext getFacesContext() {
         return FacesContext.getCurrentInstance();
+    }
+
+    protected ResourceBundle getMessageBundle(){
+        return ResourceBundle.getBundle("message-labels");
     }
 
     public UserDao getUserDao() {
